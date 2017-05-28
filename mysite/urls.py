@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from views import *
+from contact.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
     url(r'^meta/$', display_meta),
     url(r'^search-form/$', search_form),
     url(r'^search/$', search),
+    url(r'^contact/$', contact),
 ]
