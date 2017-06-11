@@ -1,10 +1,7 @@
 import datetime
-
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
-from django.core.mail import send_mail
-
-
+from django.template import loader, RequestContext
 from books.models import Book
 
 
@@ -54,3 +51,37 @@ def search(request):
             return render_to_response('search_results.html',
                                       {'books': books, 'query': q})
     return render_to_response('search_form.html', {'errors': errors})
+
+
+def requires_login(view):
+    def new_view(request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/')
+        return view(request, *args, **kwargs)
+    return new_view
+
+
+def custom_proc(request):
+    "A context processor that porovides 'app', 'user' and 'ip_address'."
+    return {
+        'app': 'My app',
+        'user': request.user,
+        'ip_address': request.META['REMOTE_ADDR']
+    }
+
+
+def view_1(request):
+    t = loader.get_template('template1.html')
+    c = RequestContext(request, {'message': 'I am view 1.'},
+                       processors=[custom_proc])
+    return t.render(c)
+
+
+def view_2(request):
+    t = loader.get_template('template2.html')
+    c = RequestContext(request, {'message': 'I am the second view.'},
+                       processors=[custom_proc])
+    return render_to_response('template2.html',
+                              {'message': 'I am the seccond view.'},
+                              context_instance=RequestContext(request, processors=[custom_proc]))
+
