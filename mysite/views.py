@@ -62,7 +62,7 @@ def requires_login(view):
 
 
 def custom_proc(request):
-    "A context processor that porovides 'app', 'user' and 'ip_address'."
+    """A context processor that porovides 'app', 'user' and 'ip_address'."""
     return {
         'app': 'My app',
         'user': request.user,
@@ -78,9 +78,6 @@ def view_1(request):
 
 
 def view_2(request):
-    t = loader.get_template('template2.html')
-    c = RequestContext(request, {'message': 'I am the second view.'},
-                       processors=[custom_proc])
     return render_to_response('template2.html',
                               {'message': 'I am the seccond view.'},
                               context_instance=RequestContext(request, processors=[custom_proc]))

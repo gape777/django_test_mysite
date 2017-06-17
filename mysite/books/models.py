@@ -6,6 +6,17 @@ from django.db import models
 # Create your models here.
 
 
+class BookManager(models.Manager):
+    def title_count(self, keyword):
+        return self.filter(title__icontains=keyword).count()
+
+
+# First, define the Manager subclass.
+class DahlBookManager(models.Manager):
+    def get_query_set(self):
+        return super(DahlBookManager, self).get_query_set().filter(author='Roald Dahl')
+
+
 class Publisher(models.Model):
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=50)
@@ -38,9 +49,16 @@ class Book(models.Model):
     authors = models.ManyToManyField(Author)
     publisher = models.ForeignKey(Publisher)
     publication_date = models.DateField(blank=True, null=True)
+    num_pages = models.IntegerField(blank=True, null=True)
+
+    objects = BookManager()
 
     def __unicode__(self):
         return self.title
 
     class Meta:
         ordering = ['title']
+
+    dahl_objects = DahlBookManager()
+
+
