@@ -2,7 +2,7 @@ import datetime
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import loader, RequestContext
-from books.models import Book
+from .books.models import Book
 
 
 def current_datetime(request):
@@ -27,7 +27,7 @@ def ua_display(request):
 
 def display_meta(request):
     values = request.META.items()
-    values.sort()
+    # values.sort()
     html = []
     for k, v in values:
         html.append('<tr><td>%s</td><td>%s</td></tr>' % (k, v))

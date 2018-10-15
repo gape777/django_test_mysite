@@ -2,7 +2,7 @@
 from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from forms import ContactForm
+from .forms import ContactForm
 
 
 def contact(request):

@@ -15,16 +15,16 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-import views
-import contact.views
+from .views import search, search_form, ua_display, current_datetime, hours_ahead, display_meta
+from .contact.views import contact
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^time/$', views.current_datetime),
-    url(r'^time/plus/(\d{1,2})/$', views.hours_ahead),
-    url(r'^display/$', views.ua_display),
-    url(r'^meta/$', views.display_meta),
-    url(r'^search-form/$', views.search_form),
-    url(r'^search/$', views.search),
-    url(r'^contact/$', contact.views.contact),
+    url(r'^time/$', current_datetime),
+    url(r'^time/plus/(\d{1,2})/$', hours_ahead),
+    url(r'^display/$', ua_display),
+    url(r'^meta/$', display_meta),
+    url(r'^search-form/$', search_form),
+    url(r'^search/$', search),
+    url(r'^contact/$', contact),
 ]
